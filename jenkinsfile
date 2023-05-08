@@ -1,20 +1,12 @@
 pipeline{
       agent any
-      tools{
-           maven 'maven 3.8.6'
-       }
       stages{
           stage('checkout code') {
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/swathi-1996/project2.git']])
             }
-        }
-            stage('Build'){
-                     steps{
-                         sh 'mvn clean package'
-                   }
-             }               
-             stage('Deploy to tomcat server '){
+        }             
+        stage('Deploy to tomcat server '){
                      steps{ 
                        deploy adapters: [tomcat9(credentialsId: '3fcf6215-5cf3-40db-b92c-ec77096a46d3', path: '', url: 'http://3.111.37.233:8080/')], contextPath: null, war: '**/*.war'
                   }
